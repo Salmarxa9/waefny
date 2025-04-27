@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>من أجلنا - الرئيسية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color1: #2D5C7F;
+      --color2: #4B8C92;
+      --color3: #A0D3C5;
+      --color4: #F6FAD2;
+      --white: #ffffff;
+      --gray: #f2f4f8;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--gray);
+      direction: rtl;
+      color: #222;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: var(--color1);
+      color: white;
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 10px var(--shadow);
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      color: white;
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color3);
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--color2), var(--color3));
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+      border-radius: 0 0 40px 40px;
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      opacity: 0.95;
+    }
+
+    /* Content */
+    .content {
+      max-width: 1000px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px var(--shadow);
+      transition: 0.3s;
+    }
+
+    .content h3 {
+      font-size: 26px;
+      color: var(--color1);
+    }
+
+    .content p {
+      font-size: 17px;
+      line-height: 1.9;
+      color: #333;
+    }
+
+    .content img {
+      max-width: 100%;
+      margin-top: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--color1);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 80px;
+      font-size: 15px;
+    }
+
+    /* Chat button */
+    .chat-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(to right, var(--color1), var(--color2));
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: none;
+      color: white;
+      font-size: 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: 0.3s ease;
+      z-index: 999;
+    }
+
+    .chat-button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Chatbox */
+    .chat-popup {
+      display: none;
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      width: 340px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.2);
+      overflow: hidden;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .chat-header {
+      background-color: var(--color1);
+      color: white;
+      padding: 14px 18px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .chat-messages {
+      height: 280px;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      background: #fefefe;
+    }
+
+    .chat-inputs {
+      padding: 12px;
+      background: #f9f9f9;
+      border-top: 1px solid #ddd;
+    }
+
+    .chat-inputs select,
+    .chat-inputs textarea,
+    .chat-inputs input[type="file"],
+    .chat-inputs button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .chat-inputs button {
+      background-color: var(--color2);
+      color: white;
+      font-weight: bold;
+      border: none;
+    }
+
+    .chat-inputs button:hover {
+      background-color: var(--color1);
+    }
+
+    .message {
+      padding: 10px 14px;
+      margin: 6px 0;
+      border-radius: 14px;
+      font-size: 14px;
+      max-width: 80%;
+      line-height: 1.6;
+    }
+
+    .bot {
+      background-color: var(--color2);
+      color: white;
+      align-self: flex-start;
+    }
+
+    .user {
+      background-color: var(--color3);
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .chat-actions {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <h1 class="logo">من أجلنا</h1>
+  <div class="nav-links">
+    <a href="index.html">الرئيسية</a>
+    <a href="awareness.html">التوعية</a>
+    <a href="report.html">الإبلاغ</a>
+  
+  </div>
+</div>
+
+<style>
+  .navbar {
+    background: linear-gradient(to left, #2D5C7F, #4B8C92);
+    color: white;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .logo {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+  }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #F6FAD2;
+    transition: 0.3s ease;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  .nav-links a:hover {
+    color: #F6FAD2;
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .nav-links a {
+      padding: 10px 0;
+      width: 100%;
+      display: block;
+    }
+  }
+</style>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h2>بيئة آمنة تبدأ بإبلاغك</h2>
+    <p>بلّغ عن أي مخاطر في مكان العمل وساعدنا في تحسين السلامة.</p>
+  </div>
+
+  <section>
+    <style>
+      .content-modern {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 40px 20px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+        gap: 30px;
+      }
+  
+      .content-text {
+        flex: 1 1 450px;
+      }
+  
+      .content-text h3 {
+        font-size: 28px;
+        color: #2D5C7F;
+        margin-bottom: 20px;
+      }
+  
+      .content-text p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: #333;
+      }
+  
+      .content-image {
+        flex: 1 1 400px;
+        text-align: center;
+      }
+  
+      .content-image img {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+      }
+  
+      .content-image img:hover {
+        transform: scale(1.03);
+      }
+  
+      @media (max-width: 768px) {
+        .content-modern {
+          flex-direction: column;
+          text-align: center;
+        }
+  
+        .content-text, .content-image {
+          flex: 1 1 100%;
+        }
+      }
+    </style>
+  
+    <div class="content-modern">
+      <div class="content-text">
+        <h3>أهمية الإبلاغ المبكر</h3>
+        <p>
+          الإبلاغ المبكر عن المشاكل والمخاطر في بيئة العمل هو حجر الأساس لسلامة الجميع. فكل بلاغ قد يمنع حادثًا خطيرًا، أو يحمي زميلًا لك. لا تتردد، وكن أنت البادئ في صنع بيئة عمل أكثر أمانًا.
+        </p>
+      </div>
+      <div class="content-image">
+        <img src="img.jpg" alt="سلامة المنشأة">
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <style>
+      .awareness-section {
+        background: linear-gradient(135deg, #A0D3C5, #F6FAD2);
+        padding: 80px 20px;
+        border-radius: 24px;
+        margin: 80px auto;
+        max-width: 1000px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+        opacity: 0;
+        transform: translateY(60px);
+        animation: fadeSlideUp 1.2s ease forwards;
+      }
+  
+      .awareness-section h2 {
+        font-size: 32px;
+        color: #2D5C7F;
+        margin-bottom: 25px;
+        position: relative;
+      }
+  
+      .awareness-section h2::after {
+        content: '';
+        width: 60px;
+        height: 4px;
+        background-color: #2D5C7F;
+        display: block;
+        margin: 12px auto 0;
+        border-radius: 4px;
+      }
+  
+      .awareness-section p {
+        font-size: 19px;
+        color: #333;
+        line-height: 1.9;
+        max-width: 800px;
+        margin: auto;
+        transition: transform 0.3s ease;
+      }
+  
+      .awareness-section p:hover {
+        transform: scale(1.015);
+      }
+  
+      @keyframes fadeSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(60px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+  
+      @media (max-width: 768px) {
+        .awareness-section {
+          padding: 60px 20px;
+        }
+  
+        .awareness-section h2 {
+          font-size: 26px;
+        }
+  
+        .awareness-section p {
+          font-size: 17px;
+        }
+      }
+    </style>
+  
+    <div class="awareness-section">
+      <h2>لماذا تعتبر السلامة مسؤوليتنا جميعاً؟</h2>
+      <p>
+        الالتزام بإجراءات السلامة يمنع الحوادث ويجعل بيئة العمل أكثر أماناً للجميع. كن المبادر وبلّغ عن أي خطر تلاحظه. <strong>"من أجلنا"</strong> أنشئ ليساعدك على إيصال صوتك للإدارة بسرعة وخصوصية.
+      </p>
+    </div>
+  </section>
+  
+
+  <section>
+    <style>
+      .stats-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 20px;
+        background: linear-gradient(135deg, #fdfdfd, #f6fad2);
+        padding: 80px 20px;
+        margin: 60px auto;
+        border-radius: 24px;
+        max-width: 1100px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+        animation: fadeInUp 1s ease both;
+      }
+  
+      .stat-box {
+        background: white;
+        border-radius: 18px;
+        flex: 1 1 280px;
+        padding: 40px 25px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        animation: fadeIn 0.8s forwards;
+      }
+  
+      .stat-box:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+  
+      .stat-box:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+  
+      .stat-box:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+  
+      .stat-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+      }
+  
+      .stat-box h3 {
+        font-size: 40px;
+        color: #2D5C7F;
+        margin-bottom: 12px;
+        font-weight: bold;
+      }
+  
+      .stat-box p {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+      }
+  
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+  
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(60px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+  
+      @media (max-width: 768px) {
+        .stat-box {
+          flex: 1 1 100%;
+        }
+      }
+    </style>
+  
+    <div class="stats-section">
+      <div class="stat-box">
+        <h3>+200</h3>
+        <p>بلاغ تم التعامل معه</p>
+      </div>
+      <div class="stat-box">
+        <h3>98%</h3>
+        <p>رضا الموظفين عن سرعة الاستجابة</p>
+      </div>
+      <div class="stat-box">
+        <h3>0</h3>
+        <p>حوادث جسيمة بعد التبليغ المبكر</p>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <style>
+      .videos-section {
+        max-width: 1100px;
+        margin: 80px auto;
+        padding: 40px 20px;
+        text-align: center;
+      }
+  
+      .videos-section h2 {
+        font-size: 28px;
+        color: #2D5C7F;
+        margin-bottom: 30px;
+        position: relative;
+      }
+  
+      .videos-section h2::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 4px;
+        background-color: #4B8C92;
+        margin: 10px auto 0;
+        border-radius: 4px;
+      }
+  
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+      }
+  
+      .video-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+      }
+  
+      .video-card:hover {
+        transform: translateY(-5px);
+      }
+  
+      .video-card iframe {
+        width: 100%;
+        height: 200px;
+        border: none;
+      }
+  
+      @media (max-width: 768px) {
+        .video-card iframe {
+          height: 180px;
+        }
+      }
+    </style>
+  
+  <section>
+    <style>
+      .videos-section {
+        max-width: 1100px;
+        margin: 80px auto;
+        padding: 40px 20px;
+        text-align: center;
+      }
+  
+      .videos-section h2 {
+        font-size: 28px;
+        color: #2D5C7F;
+        margin-bottom: 30px;
+        position: relative;
+      }
+  
+      .videos-section h2::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 4px;
+        background-color: #4B8C92;
+        margin: 10px auto 0;
+        border-radius: 4px;
+      }
+  
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+      }
+  
+      .video-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+      }
+  
+      .video-card:hover {
+        transform: translateY(-5px);
+      }
+  
+      .video-card iframe {
+        width: 100%;
+        height: 200px;
+        border: none;
+      }
+  
+      @media (max-width: 768px) {
+        .video-card iframe {
+          height: 180px;
+        }
+      }
+    </style>
+  
+<!-- Font Awesome for Like/Dislike icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
+
+<section>
+  <style>
+    .videos-section {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .videos-section h2 {
+      font-size: 28px;
+      color: #2D5C7F;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .videos-section h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background-color: #4B8C92;
+      margin: 10px auto 0;
+      border-radius: 4px;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+    .video-card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+    .video-card:hover {
+      transform: translateY(-5px);
+    }
+    .video-card iframe {
+      width: 100%;
+      height: 200px;
+      border: none;
+      border-radius: 8px;
+    }
+    .video-title {
+      font-size: 18px;
+      color: #2D5C7F;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .video-description {
+      font-size: 15px;
+      color: #555;
+      margin-top: 8px;
+    }
+    .video-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 12px;
+      justify-content: center;
+    }
+    .video-actions i {
+      cursor: pointer;
+      color: #666;
+      font-size: 20px;
+      transition: color 0.3s;
+    }
+    .video-actions i:hover {
+      color: #2D5C7F;
+    }
+    @media (max-width: 768px) {
+      .video-card iframe {
+        height: 180px;
+      }
+    }
+  </style>
+
+  <div class="videos-section">
+    <h2>مقاطع توعوية عن السلامة</h2>
+    <div class="video-grid">
+      <!-- Video 1 -->
+      <div class="video-card">
+        <!-- Use the embed URL (youtube.com/embed/VIDEO_ID) instead of the watch URL -->
+        <iframe src="https://www.youtube.com/embed/PzSyX8sRNA4" allowfullscreen></iframe>
+        <div class="video-title">قواعد السلامة والصحة المهنية </div>
+        <div class="video-description">
+          وصف موجز للفيديو الأول الذي يشرح إجراءات السلامة في بيئة العمل.
+        </div>
+        <div class="video-actions">
+          <i class="fa fa-thumbs-up"></i>
+          <i class="fa fa-thumbs-down"></i>
+        </div>
+      </div>
+
+      <!-- Video 2 -->
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/ksqFo3Bnmws" allowfullscreen></iframe>
+        <div class="video-title">ادارة الصحة والسلامة والبيئة</div>
+        <div class="video-description">
+          شرح تفصيلي لكيفية التعامل مع المخاطر الكهربائية والأدوات التالفة.
+        </div>
+        <div class="video-actions">
+          <i class="fa fa-thumbs-up"></i>
+          <i class="fa fa-thumbs-down"></i>
+        </div>
+      </div>
+
+      <!-- Video 3 -->
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/r0TDraVSXS0" allowfullscreen></iframe>
+        <div class="video-title">  مؤتمر الصحة العالمية</div>
+        <div class="video-description">
+          نصائح وإرشادات لتفادي حوادث  من خلال اتباع الإجراءات الوقائية.
+        </div>
+        <div class="video-actions">
+          <i class="fa fa-thumbs-up"></i>
+          <i class="fa fa-thumbs-down"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="emergency-section">
+  <style>
+    .emergency-section {
+      background: linear-gradient(135deg, #FFA07A, #FF6347);
+      color: #fff;
+      padding: 40px 20px;
+      margin: 50px auto;
+      max-width: 1000px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      animation: fadeInUp 1s ease;
+    }
+    .emergency-section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .emergency-section p {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .emergency-section .emergency-list {
+      text-align: left;
+      display: inline-block;
+      margin: 20px 0;
+      padding: 0;
+      list-style: none;
+    }
+    .emergency-section .emergency-list li {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .emergency-section button {
+      padding: 12px 24px;
+      font-size: 18px;
+      background: #4B8C92;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .emergency-section button:hover {
+      background: #2D5C7F;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  <h2>قسم الطوارئ</h2>
+  <p>
+    في حالة وجود مشكلة طارئة، يرجى التواصل مع الرقم <strong>0550856655</strong>. <br>
+    عند حدوث حالة طارئة
+    مثل / سقوط اداه كبيره  ،  الحالات الصحية ، وجود خلل يجب تصحيحة فورًا  يرجى التواصل او التوجه الى وحدة السلامة في الكلية
+  </p>
+  
+  <button onclick="toggleChat();">تواصل معنا في حال الخطر</button>
+</section>
+
+<section class="how-to-act">
+  <style>
+    .how-to-act {
+      background: linear-gradient(135deg, #A0D3C5, #F6FAD2);
+      padding: 40px 20px;
+      border-radius: 12px;
+      margin: 40px auto;
+      max-width: 1000px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      animation: fadeInUp 1s ease;
+    }
+    .how-to-act h2 {
+      font-size: 32px;
+      color: #2D5C7F;
+      margin-bottom: 30px;
+    }
+    .how-to-act .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .how-to-act .box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .how-to-act .box:hover {
+      transform: translateY(-5px);
+    }
+    .how-to-act .box h3 {
+      font-size: 22px;
+      color: #2D5C7F;
+      margin-bottom: 10px;
+    }
+    .how-to-act .box p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.6;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  <h2>كيف اتصرف عند حدوث حالة طارئة  ؟</h2>
+  <div class="grid">
+    <div class="box">
+      <h3>الصرع</h3>
+      <p>يجب إبقاء المصاب في وضع آمن، تجنب تقييده أو وضع شيء في فمه، ومراقبته حتى تنتهي النوبة، ثم وضعه على جانبه إن لزم الأمر.</p>
+    </div>
+    <div class="box">
+      <h3>الغثيان</h3>
+      <p>يُنصح بالراحة، وتجنب الأطعمة الثقيلة أو الدهنية، ويمكن شرب الماء أو السوائل الخفيفة ببطء حتى يخف الشعور.</p>
+    </div>
+    <div class="box">
+      <h3>الإغماء</h3>
+      <p>يُمدد المصاب على ظهره مع رفع ساقيه لمساعدة تدفق الدم إلى الدماغ، والحرص على تهوية المكان ومراقبة وعيه.</p>
+    </div>
+    <div class="box">
+      <h3>نوبات الهلع</h3>
+      <p>يُطمأن المصاب ويتم تهدئته بالكلام الهادئ، ويُشجَّع على التنفس العميق والبطيء حتى تهدأ الأعراض.</p>
+    </div>
+    <div class="box">
+      <h3>ارتفاع أو انخفاض السكر</h3>
+      <p>يجب قياس مستوى السكر فورًا، فإذا كان منخفضًا يُعطى المصاب شيئًا سكريًا سريع الامتصاص، أما إذا كان مرتفعًا فيُنصح بالراحة ومراجعة الطبيب فورًا.</p>
+    </div>
+    <div class="box">
+      <h3>ارتفاع أو انخفاض الضغط</h3>
+      <p>يُفضّل الجلوس أو الاستلقاء، وقياس الضغط إن أمكن، وفي حال استمرار الأعراض أو شدتها، يجب طلب المساعدة الطبية.</p>
+    </div>
+  </div>
+</section>
+
+  <section>
+    <style>
+      .cta-section {
+        background: linear-gradient(90deg, #4B8C92, #2D5C7F);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+        margin: 60px auto;
+        border-radius: 20px;
+        max-width: 1000px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      }
+  
+      .cta-section h2 {
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+  
+      .cta-section p {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+  
+      .cta-section a {
+        background-color: #A0D3C5;
+        color: #2D5C7F;
+        padding: 12px 24px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+  
+      .cta-section a:hover {
+        background-color: #F6FAD2;
+      }
+    </style>
+  
+    <div class="cta-section">
+      <h2>هل لاحظت شيئًا مقلقًا؟</h2>
+      <p>شاركنا البلاغ الآن وساعد في الحفاظ على بيئة عمل آمنة للجميع.</p>
+      <a href="#" onclick="toggleChat(); return false;">إبلاغ الآن</a>
+    </div>
+  </section>
+
+  <!-- New Section: Display Chat Reports -->
+  <section id="chatReportsSection">
+    <style>
+      #chatReportsSection {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px var(--shadow);
+        text-align: center;
+      }
+      #chatReportsSection h2 {
+        font-size: 28px;
+        color: var(--color1);
+        margin-bottom: 20px;
+      }
+      .chat-report {
+        margin-bottom: 20px;
+      }
+      .chat-report p {
+        font-size: 17px;
+        line-height: 1.8;
+        color: #333;
+      }
+      .chat-report img {
+        max-width: 100%;
+        margin-top: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      }
+    </style>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 جميع الحقوق محفوظة - من أجلنا
+  </footer>
+
+  <!-- Chat Button -->
+  <button class="chat-button" onclick="toggleChat()">💬</button>
+
+  <!-- Chat Popup -->
+  <div class="chat-popup" id="chatPopup">
+    <div class="chat-header">مساعد من أجلنا</div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-inputs">
+      <select id="questionSelect" onchange="handleSelect()">
+        <option disabled selected>اختر سؤالاً</option>
+        <option value="hello">مرحباً</option>
+        <option value="types">ما هي المشاكل التي أستطيع الإبلاغ عنها؟</option>
+        <option value="how">كيف أبلغ عن مشكلة؟</option>
+        <option value="report">أريد إرسال بلاغ</option>
+      </select>
+
+      <div class="chat-actions" id="reportForm">
+        <textarea id="reportText" placeholder="اكتب وصف المشكلة..."></textarea>
+        <input type="file" id="reportImage" accept="image/*">
+        <button onclick="submitReport()">إرسال البلاغ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    const chatPopup = document.getElementById("chatPopup");
+    const chatMessages = document.getElementById("chatMessages");
+    const reportForm = document.getElementById("reportForm");
+
+    function toggleChat() {
+      chatPopup.style.display = (chatPopup.style.display === "flex") ? "none" : "flex";
+      chatPopup.style.flexDirection = "column";
+    }
+
+    function appendMessage(text, sender = "bot") {
+      const msg = document.createElement("div");
+      msg.className = "message " + sender;
+      msg.textContent = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function handleSelect() {
+      const val = document.getElementById("questionSelect").value;
+      if (val === "hello") appendMessage("👋 مرحباً! كيف يمكنني مساعدتك؟", "bot");
+      if (val === "types") appendMessage("🔎 يمكنك الإبلاغ عن مشاكل كهربائية، أدوات تالفة، تصرفات خطرة، تسريبات... إلخ", "bot");
+      if (val === "how") appendMessage("📩 اختر (أريد إرسال بلاغ) لتعبئة نموذج البلاغ.", "bot");
+      if (val === "report") {
+        appendMessage("✍️ يرجى كتابة وصف للمشكلة وإرفاق صورة إن وجدت.", "bot");
+        reportForm.style.display = "block";
+      }
+    }
+
+    function submitReport() {
+      const desc = document.getElementById("reportText").value;
+      const file = document.getElementById("reportImage").files[0];
+
+      if (!desc && !file) {
+        alert("يرجى كتابة وصف أو رفع صورة");
+        return;
+      }
+
+      if (desc) appendMessage(desc, "user");
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const img = document.createElement("img");
+          img.src = reader.result;
+          img.style.maxWidth = "100px";
+          img.style.borderRadius = "8px";
+
+          const msg = document.createElement("div");
+          msg.className = "message user";
+          msg.appendChild(img);
+          chatMessages.appendChild(msg);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+
+          saveReport(desc, reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        saveReport(desc, null);
+      }
+
+      appendMessage("✅ تم استلام البلاغ وسيتم مراجعته من قبل الإدارة.", "bot");
+      document.getElementById("reportText").value = "";
+      document.getElementById("reportImage").value = "";
+      reportForm.style.display = "none";
+    }
+
+    function saveReport(text, imageData) {
+      const report = {
+        description: text || "بلاغ بدون نص",
+        image: imageData,
+        time: new Date().toLocaleString()
+      };
+      localStorage.setItem('latestReport', JSON.stringify(report));
+    }
+  </script>
+
+  <!-- Script to display chat report in the new section -->
+  <script>
+    const chatReport = localStorage.getItem('latestReport');
+    const chatReportsDiv = document.getElementById('chatReports');
+    if (chatReport) {
+      const reportObj = JSON.parse(chatReport);
+      chatReportsDiv.innerHTML += `
+        <div class="chat-report">
+          <p><strong>الوصف:</strong> ${reportObj.description}</p>
+          ${reportObj.image ? `<img src="${reportObj.image}" alt="صورة البلاغ">` : ''}
+          <p style="font-size:14px; color:#666;">تاريخ: ${reportObj.time}</p>
+        </div>
+      `;
+    } else {
+      chatReportsDiv.innerHTML += `<p style="color:#999;">لا توجد بلاغات دردشة حالياً.</p>`;
+    }
+  </script>
+</body>
+</html>

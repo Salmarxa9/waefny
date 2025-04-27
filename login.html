@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>من أجلنا - تسجيل الدخول</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2D5C7F;
+      --secondary: #4B8C92;
+      --accent: #A0D3C5;
+      --bg: #F6FAD2;
+      --white: #ffffff;
+      --font-family: 'Cairo', sans-serif;
+    }
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg);
+      direction: rtl;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 0 10px;
+    }
+    /* Container */
+    .container {
+      background: var(--white);
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      animation: fadeInUp 1s ease;
+    }
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      80% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    /* Logo */
+    .container img.logo {
+      width: 150px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .container img.logo:hover {
+      transform: scale(1.1);
+    }
+    /* Headings & Form */
+    .container h2 {
+      margin-bottom: 20px;
+      color: var(--primary);
+      font-size: 26px;
+      animation: fadeIn 1s ease forwards;
+    }
+    .container form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      animation: fadeIn 1.2s ease forwards;
+    }
+    .container form input {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: border-color 0.3s ease;
+    }
+    .container form input:focus {
+      border-color: var(--secondary);
+      outline: none;
+      box-shadow: 0 0 5px rgba(77, 140, 146, 0.5);
+    }
+    .container form button {
+      padding: 12px;
+      background: var(--secondary);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      animation: bounceIn 1s ease;
+    }
+    .container form button:hover {
+      background: var(--primary);
+    }
+    .container p {
+      font-size: 14px;
+      margin-top: 10px;
+      animation: fadeIn 1.4s ease forwards;
+    }
+    .container p a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+      .container h2 {
+        font-size: 22px;
+      }
+      .container form input,
+      .container form button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo.jpg" alt="Logo" class="logo">
+    <h2>تسجيل الدخول</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+      <input type="password" id="password" placeholder="كلمة المرور" required>
+      <button type="submit">دخول</button>
+    </form>
+    <p>إذا لم يكن لديك حساب، <a href="signup.html">سجل حساب جديد</a>.</p>
+  </div>
+  
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      // Check for admin login
+      if(email === "admin123@gmail.com" && password === "admin123@"){
+         window.location.href = "admin.html";
+         return;
+      }
+      
+      // Otherwise, check against stored users in localStorage
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      const foundUser = users.find(user => user.email === email && user.password === password);
+      if(foundUser) {
+         window.location.href = "index.html";
+      } else {
+         alert("بيانات الاعتماد غير صحيحة!");
+      }
+    });
+  </script>
+</body>
+</html>

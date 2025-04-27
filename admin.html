@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>من أجلنا - لوحة الإدارة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Modernized styles -->
+  <style>
+    :root {
+      --color1: #2D5C7F;
+      --color2: #4B8C92;
+      --color3: #A0D3C5;
+      --color4: #F6FAD2;
+      --white: #ffffff;
+      --light: #ffffff;
+      --border: #ddd;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --shadow-strong: rgba(0, 0, 0, 0.15);
+      --font-family: 'Cairo', sans-serif;
+    }
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color4);
+      direction: rtl;
+      color: #333;
+    }
+    /* White modern nav bar */
+    header {
+      background-color: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 10px var(--shadow-strong);
+    }
+    header img.logo {
+      height: 100px; /* Increased logo size */
+      transition: transform 0.3s;
+    }
+    header img.logo:hover {
+      transform: scale(1.05);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: var(--color1);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: var(--color2);
+    }
+    /* Chart container */
+    .chart-container {
+      max-width: 900px;
+      margin: 30px auto;
+      background-color: var(--white);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px var(--shadow);
+    }
+    .chart-container h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--color1);
+      text-align: center;
+    }
+    /* Report container */
+    .report-container {
+      max-width: 900px;
+      margin: 30px auto 60px;
+      background: var(--white);
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px var(--shadow);
+      transition: all 0.3s ease;
+    }
+    .single-report {
+      margin-bottom: 30px;
+      padding: 20px;
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: transform 0.3s;
+    }
+    .single-report:hover {
+      transform: translateY(-5px);
+    }
+    .single-report h3 {
+      color: var(--color1);
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .single-report p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .report-img {
+      max-width: 100%;
+      margin-top: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .time {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+    .no-data {
+      text-align: center;
+      color: #999;
+      font-size: 20px;
+      padding: 40px;
+    }
+    /* Remove button for each report */
+    .remove-btn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+      background: #d9534f;
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .remove-btn:hover {
+      background: #c9302c;
+    }
+    /* Global Admin Actions styling */
+    .admin-actions {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .admin-actions button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 16px;
+      background-color: var(--color2);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .admin-actions button:hover {
+      background-color: var(--color1);
+    }
+  </style>
+</head>
+<body>
+  <!-- White Navigation Bar with Logo -->
+  <header>
+    <img src="logo.jpg" alt="Logo" class="logo">
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="report.html">البلاغ</a></li>
+        <li><a href="awareness.html">التوعية</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Chart Section: Daily reports in the current month -->
+  <section class="chart-container">
+    <h2>إحصائيات البلاغات لهذا الشهر</h2>
+    <canvas id="reportChart" width="400" height="200"></canvas>
+  </section>
+
+  <!-- Report Container -->
+  <div id="reportBox" class="report-container"></div>
+
+  <!-- Global button for uploading reports as an Excel file -->
+  <div class="admin-actions">
+    <button id="uploadBtn">رفع البلاغات (ملف Excel)</button>
+  </div>
+
+  <!-- Script Section -->
+  <!-- Load Chart.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Function to retrieve all reports from the "reports" array and chat report.
+    let reportsArray = JSON.parse(localStorage.getItem('reports')) || [];
+    const chatReportStr = localStorage.getItem("latestReport");
+    if (chatReportStr) {
+      reportsArray.push(JSON.parse(chatReportStr));
+    }
+    const container = document.getElementById('reportBox');
+    let content = "";
+    if (reportsArray.length > 0) {
+      reportsArray.forEach(function(report, index) {
+        content += `
+          <div class="single-report">
+            <h3>📌 بلاغ جديد</h3>
+            <p><strong>الوصف:</strong> ${report.description}</p>
+            ${report.image ? `<img src="${report.image}" alt="صورة البلاغ" class="report-img">` : ""}
+            <p class="time">📅 التاريخ: ${report.time}</p>
+            <button class="remove-btn" onclick="removeReport(${index})">حذف هذا البلاغ</button>
+            <hr>
+          </div>
+        `;
+      });
+    } else {
+      content = `<div class="no-data">لا توجد بلاغات حالياً.</div>`;
+    }
+    container.innerHTML = content;
+
+    // Function to remove a report by its index.
+    function removeReport(index) {
+      if (confirm("هل أنت متأكد من حذف هذا البلاغ؟")) {
+        let reports = JSON.parse(localStorage.getItem("reports")) || [];
+        // Determine if the removed report is in the "reports" array or is the chat report.
+        if (index < reports.length) {
+          reports.splice(index, 1);
+          localStorage.setItem("reports", JSON.stringify(reports));
+        } else {
+          localStorage.removeItem("latestReport");
+        }
+        location.reload();
+      }
+    }
+
+    // Chart: Count daily reports for the current month.
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const dailyCounts = {};
+    reportsArray.forEach(report => {
+      const rDate = new Date(report.time);
+      if (rDate.getMonth() === currentMonth && rDate.getFullYear() === currentYear) {
+        const day = rDate.getDate();
+        dailyCounts[day] = (dailyCounts[day] || 0) + 1;
+      }
+    });
+    const chartLabels = Object.keys(dailyCounts).sort((a, b) => a - b);
+    const chartData = chartLabels.map(day => dailyCounts[day]);
+    const ctx = document.getElementById("reportChart").getContext("2d");
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          label: 'عدد البلاغات',
+          data: chartData,
+          fill: false,
+          borderColor: '#4B8C92',
+          tension: 0.1,
+          pointBackgroundColor: '#2D5C7F',
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'اليوم من الشهر'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'عدد البلاغات'
+            },
+            beginAtZero: true,
+            precision: 0
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+
+    // Global upload button: Export all reports (excluding images) to an Excel file.
+    document.getElementById("uploadBtn").addEventListener("click", function() {
+      let reports = JSON.parse(localStorage.getItem("reports")) || [];
+      const chatReportStr = localStorage.getItem("latestReport");
+      if (chatReportStr) {
+        reports.push(JSON.parse(chatReportStr));
+      }
+      if (reports.length === 0) {
+        alert("لا توجد بلاغات للرفع.");
+        return;
+      }
+      let table = `<table border="1">
+        <tr>
+          <th>الوصف</th>
+          <th>التاريخ</th>
+        </tr>`;
+      reports.forEach(function(report) {
+        table += `<tr>
+          <td>${report.description}</td>
+          <td>${report.time}</td>
+        </tr>`;
+      });
+      table += `</table>`;
+      
+      const htmlContent = `
+        <html>
+        <head><meta charset="UTF-8"></head>
+        <body>
+          ${table}
+        </body>
+        </html>`;
+      
+      const blob = new Blob([htmlContent], { type: "application/vnd.ms-excel" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "reports.xls";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  </script>
+</body>
+</html>

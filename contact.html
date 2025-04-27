@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>من أجلنا - اتصل بنا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color1: #2D5C7F;
+      --color2: #4B8C92;
+      --color3: #A0D3C5;
+      --color4: #F6FAD2;
+      --white: #ffffff;
+      --gray: #f2f4f8;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--gray);
+      direction: rtl;
+      color: #222;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(to left, var(--color1), var(--color2));
+      color: white;
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      right: 0;
+      width: 0%;
+      height: 2px;
+      background-color: var(--color4);
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: var(--color4);
+    }
+
+    /* Contact Section */
+    .contact-section {
+      max-width: 800px;
+      margin: 80px auto;
+      background: white;
+      padding: 50px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px var(--shadow);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    .contact-section h2 {
+      font-size: 32px;
+      color: var(--color1);
+      margin-bottom: 20px;
+    }
+
+    .contact-section p {
+      font-size: 18px;
+      color: #444;
+      line-height: 1.9;
+      margin-bottom: 30px;
+    }
+
+    .contact-info {
+      background: linear-gradient(135deg, var(--color3), var(--color4));
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--color1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--color1);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 80px;
+      font-size: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-section {
+        margin: 50px 20px;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <h1 class="logo">من أجلنا</h1>
+  <div class="nav-links">
+    <a href="index.html">الرئيسية</a>
+    <a href="awareness.html">التوعية</a>
+    <a href="report.html">الإبلاغ</a>
+    <a href="contact.html">اتصل بنا</a>
+  </div>
+</div>
+
+<!-- Contact Section -->
+<section class="contact-section">
+  <h2>اتصل بنا</h2>
+  <p>
+    في حالة وجود مشكلة طارئة مثل <strong>سقوط أداة كبيرة</strong>، <strong>الحالات الصحية الطارئة</strong>، أو <strong>وجود خلل يجب تصحيحه فوراً</strong>، يرجى التواصل أو التوجه مباشرة إلى وحدة السلامة في الكلية.
+  </p>
+  <div class="contact-info">
+    📞 رقم الطوارئ: 0550856655
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  &copy; 2025 جميع الحقوق محفوظة - من أجلنا
+</footer>
+
+</body>
+</html>
